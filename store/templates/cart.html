@@ -16,7 +16,7 @@
 {% for i,j in data.items %}
 <tr>
       <th scope="row">{{i.id}}</th>
-      <td><img src={{i.img}} alt="error to load" width="100px" height="120px"></td>
+      <td><img src={{i.img}} alt = " error to load " width="100px" height="120px"></td>
       <td>{{i.title}}</td>
       <td>{{j}}</td>
       <td>RS.{{i.pages}}</td>
@@ -28,6 +28,10 @@
 <div class=""style="float:right">
     <p class="my-3 mx-3" ><b>Total Price - ${{totalPrice}}</b></p>
     <a class="btn btn-outline-success my-3 mx-3" href="checkout" >Make Payment</a>
+</div>
+<div class=""style="float:right">
+    <p class="my-3 mx-3" ><b>The cart can be cleaned</b></p>
+    <a class="btn btn-outline-success my-3 mx-3" href="deletecart" >Clear cart</a>
 </div>
 
 

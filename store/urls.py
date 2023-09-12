@@ -15,5 +15,18 @@ urlpatterns = [
     path('checkout', views.checkout, name='checkout'),
     path('cart', views.cart, name='cart'),
     path('account', views.account, name='account'),
+    path('deletecart', views.checkout, name='deletecart'),
 ]
 
+
+from store.views import(
+    HomeView,
+)
+
+app_name ='store'
+
+urlpatterns = [
+    # Home
+    path('', HomeView, name='home'),
+
+]

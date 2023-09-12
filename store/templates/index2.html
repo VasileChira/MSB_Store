@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books</title>
+    <link rel="icon" type="image/x-icon" href="static/img/icon1.png">
+    <style>
+        .image img {
+            width: 100%;
+        }
+
+        .form1 {
+            -webkit-flex: 0 1 auto;
+            -ms-flex: 0 1 auto;
+            flex: 0 1 auto;
+        }
+
+        .fill {
+            -webkit-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+        }
+
+        .flex-container {
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -webkit-justify-content: space-between;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            -webkit-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+            background: rgb(241, 241, 241);
+
+            margin: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    {% extends 'navbar.html' %}
+    {% block navbar %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" style="color:blue ;" role="alert">
+        <strong>Message:</strong> {{ message }}
+    </div>
+    {% endfor %}
+     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            {% for object in carousel%}
+            <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}">
+                <img src="{{object.image.url}}" style="height:650px;" class="testi-overly d-block w-100" alt="sliderImg">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1 class="animate__animated
+                    {% if forloop.counter0 == 0 %}
+                    animate__fadeInDown
+                    {% endif %}
+                    {% if forloop.revcounter == 1 %}
+                    animate__bounce
+                    {% endif %}
+                    {% if forloop.revcounter == 2 %}
+                    animate__fadeInRight
+                    {% endif %}">{{object.title}}</h1>
+                    <h3 class="animate__animated animate__zoomIn">{{object.sub_title}}</h3>
+                    <a href="{{object.link}}" class="button animate__animated animate__zoomIn mt-3 py-3 px-5 btn font-weight-bold">{{object.action_name}}</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="row">
+            {% for product in products %}
+            <div class="flex-container" id="{{product.id}}" class="fill">
+                <img src={{product.img}} alt="error" width="140px" height="170px">
+
+                <p style="overflow:auto">{{product.title}}</p>
+                <p> Price - ${{product.pages}} </p>
+
+                <form action="#{{product.id}}" method="post" class="form1">
+                    {% csrf_token %}
+                    <input type="hidden" name="proid" value={{product.id}}>
+                    <button class="btn btn-outline-success" style="width:140px; " type="submit" name="submit"
+                        value="Add To Card">Add To Cart</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <footer class="footer">
+        <div class="text-center">
+            Copyright&#169; 2023
+        </div>
+
+    </footer>
+
+    <script>
+
+
+    </script>
+
+</body>
+
+</html>
+{% endblock navbar %}

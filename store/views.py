@@ -1,10 +1,14 @@
 import pandas as pd
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
+
 from .models import Contact
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from .models.product import Product
 from .models.customer import Customer
+
+from .models import Carousel
 
 def entry(request):
     cart =request.session.get('cart')
@@ -49,6 +53,17 @@ def Login(request):
 
     return render(request, 'login.html',{'n':n})
 
+def delete_from_cart(request,id):
+    try:
+        the_id = request.session['cart_id']
+        cart = Product.objects.get(id=the_id)
+    except:
+        return HttpResponseRedirect(reverse("index.html"))
+
+    cartitem = Product.objects.get(id=id)
+    cartitem.delete()
+    # sending back to home if
+    return HttpResponseRedirect(reverse("index.html"))
 
 def cart(request):
     n = entry(request)
@@ -69,6 +84,8 @@ def cart(request):
         totalPrice = totalPrice + (j*product.pages)
         data[product]=j
     return render(request, 'cart.html', {'data': data,'n':n, 'email':email, 'totalPrice':totalPrice})
+
+
 
 def signout(request):
     # request.session.get('cart'
@@ -136,6 +153,10 @@ def checkout(request):
     n = entry(request)
     return render(request, 'checkout.html', {'n':n,'email':email})
 
+def deletecart(request):
+    email = request.session.get('email')
+    n = entry(request)
+    return render(request, 'deletecart.html', {'n':n,'email':email})
 
 def details(request):
     n = entry(request)
@@ -188,4 +209,9 @@ def account(request):
     last_name = request.session.get('last_name')
     return render(request, 'account.html', {'email':email, 'first_name':first_name,'last_name':last_name,'n':n})
 
-
+def HomeView(request):
+    carousel = Carousel.objects.all()
+    context  = {
+        'carousel' : carousel
+    }
+    return render(request, "index2.html", context)
